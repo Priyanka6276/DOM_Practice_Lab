@@ -46,7 +46,7 @@ menuLinks.forEach((link) => {
   newATag.setAttribute('href', link.href)
   newATag.textContent = link.text
   topMenuEl.append(newATag)
-  console.log(newATag)
+  // console.log(newATag)
 })
 
 //=====================================4.0======================================
@@ -124,7 +124,7 @@ topMenuEl.addEventListener('click', (evt) => {
     return sublinkObj.text === evt.target.textContent
   })
 
-  console.log(linkObj.subLinks)
+  // console.log(linkObj.subLinks)
 
   if (showingSubMenu.valueOf('sub-menu')) {
     subMenuEl.style.top = '100%'
@@ -208,6 +208,15 @@ topMenuEl.addEventListener('click', (evt) => {
   // } else {
   //   subMenuEl.style.top = '0%'
   // }
+
+  //=====================================6.4====================================== 
+  if (evt.target.text === 'about'){
+    mainEl.innerHTML = `<h1>${evt.target.text}</h1>`
+  }
+
+  //this didn't work in the below event listener
+
+
 })
 
 //=====================================6.0======================================
@@ -230,9 +239,10 @@ subMenuEl.addEventListener('click', (event) => {
   })
 
   //=====================================6.3====================================== 
-  console.log('hi')
+  // console.log('hi')
 
- mainEl.innerHTML = `<h1></h1>`
-  
+  mainEl.innerHTML = `<h1>${event.target.text}</h1>`
+
   // console.log(mainEl.innerHTML = `<h1> ${menuLinks[0]} </h1>`)
+
 })
