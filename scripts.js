@@ -22,14 +22,13 @@ var menuLinks = [
   },
 ];
 
-
 const mainEl = document.querySelector('main')
 
 mainEl.style.backgroundColor = '#4a4e4d'
 
 mainEl.innerHTML = '<h1> SEI Rocks! </h1>'
 
-mainEl.classList.toggle('flex-ctr')
+mainEl.classList.add('flex-ctr')
 
 const topMenuEl = document.getElementById('top-menu')
 
@@ -37,7 +36,9 @@ topMenuEl.style.height = '100%'
 
 topMenuEl.style.backgroundColor = 'var(--top-menu-bg)'
 
-topMenuEl.classList.toggle('flex-around')
+topMenuEl.classList.add('flex-around')
+
+//=====================================3.1======================================
 
 
 menuLinks.forEach((link) => {
@@ -45,7 +46,7 @@ menuLinks.forEach((link) => {
   newATag.setAttribute('href', link.href)
   newATag.textContent = link.text
   topMenuEl.append(newATag)
-
+  console.log(newATag)
 })
 
 //=====================================4.0======================================
@@ -62,7 +63,7 @@ subMenuEl.style.backgroundColor = 'var(--sub-menu-bg)'
 
 //=====================================4.3======================================
 
-subMenuEl.classList.toggle('flex-around')
+subMenuEl.classList.add('flex-around')
 
 //=====================================4.4======================================
 
@@ -76,8 +77,8 @@ subMenuEl.style.top = '0'
 
 const topMenuLinks = document.querySelectorAll('#top-menu > a')
 
-let showingSubMenu = false
 
+let showingSubMenu = false
 
 //=====================================5.2======================================
 
@@ -87,87 +88,151 @@ topMenuEl.addEventListener('click', (evt) => {
     // console.log('false')
     return
   }
-
   //=====================================5.3======================================
 
   if (evt.target.classList.contains('active')) {
-    evt.target.remove('active')
+    evt.target.classList.remove('active') //note to self i forgot to put classList, and clicking on the menu title twice removed it, but adding classList fixed it :)
     showingSubMenu = false
     subMenuEl.style.top = '0'
     return
   }
-  // console.log(topMenuEl)
-  // topMenuLinks.forEach(() => {
-  //   evt.target.classList.remove('active')
-  // })
 
   //=====================================5.4======================================
 
   topMenuLinks.forEach((arg) => {
-    arg.classList.remove('active');
-    console.log(arg);
+    arg.classList.remove('active')
+    // console.log(arg);
   })
-
 
   //=====================================5.5======================================
 
-  // evt.classList.add('active')
-
-  // // document.querySelectorAll('.active')
-  // // evt.body.classList.toggle('active')
-
   evt.target.classList.add('active')
+
 
   //=====================================5.6======================================
 
-  const obj = menuLinks.find(function (obj) {
-    return obj.text === evt.textContent
-  })
 
   for (let i = 0; i < menuLinks.length; i++) {
     // console.log('menuLinks')
-    console.log(menuLinks[i])
-    console.log(menuLinks[i].subLinks)
-
-    console.log(menuLinks[i].hasOwnProperty('subLinks'))
-
-    showingSubMenu = menuLinks[i].hasOwnProperty('subLinks')
-
-    if (menuLinks[i].hasOwnProperty('subLinks')) {
-      console.log(menuLinks[i].subLinks)
+    if (evt.target.textContent === menuLinks[i].text) {
+      showingSubMenu = menuLinks[i].hasOwnProperty('subLinks')
+      // console.log(menuLinks[i])
     }
   }
-  //my sad attempts at 5.6 below
-  //   let link = document.querySelectorAll('href')
-  //   if(link[i]){
-  //     showingSubMenu = true
-  //   } else {
-  //     showingSubMenu = false
-  //   }
+  //=====================================5.7======================================
+  const linkObj = menuLinks.find(function (sublinkObj) {
+    return sublinkObj.text === evt.target.textContent
+  })
 
-  // }
+  console.log(linkObj.subLinks)
 
-  // menuLinks.forEach((evt) => {
-  //   let link = evt.target.tagName
-  //   console.log(link)
-  // })
+  if (showingSubMenu.valueOf('sub-menu')) {
+    subMenuEl.style.top = '100%'
+    buildSubMenu(linkObj.subLinks)
+    // console.log('true')
+  } else {
+    subMenuEl.style.top = '0%'
+  }
 
-  // if(evt.target.classList.contains('sublinks')) {
+
+  //=====================================5.8======================================
+
+  function buildSubMenu(subLinkArray) {
+    subMenuEl.innerHTML = '' // this clears it
+    subLinkArray.forEach((subLink) => {
+      let aEl = document.createElement('A') //note to self I had ('a') instead and it didn't work
+      aEl.setAttribute('href', subLink.href)
+      aEl.textContent = subLink.text
+      subMenuEl.append(aEl)
+      // console.log(aEl)
+    })
+
+
+    //my messy testing code 
+
+    // let aEl = subMenuEl.querySelectorAll('a')
+    // console.log(aEl)
+    // for (let j = 0; j < aEl.length; j++) {
+    //   if (aEl[j].getAttribute('href') === '#') {
+    //     aEl.setAttribute('subLinks', linkArray.text)
+    //     aEl.textContent = subLinkArray.text
+    //     subMenuEl.append(aEl)
+    //   }
+    // }
+  }
+
+
+
+
+  // console.log(menuLinks[i])
+  // console.log(menuLinks[i].subLinks)
+  // console.log(menuLinks[i].hasOwnProperty('subLinks'))
+
+  // showingSubMenu = menuLinks[i].hasOwnProperty('subLinks')
+
+  // if (menuLinks[i].hasOwnProperty('subLinks')) {
+  //   console.log(menuLinks[i].subLinks)
+  // //   return
+  // } 
+
+
+
+  // if (evt.target.getAttribute('href') === '#') {
   //   showingSubMenu = true
+  //   // console.log(showingSubMenu)
+  //   buildSubMenu(linkObj)
+
   // } else {
   //   showingSubMenu = false
+  //   // console.log(showingSubMenu)
+  // }
 
-  //=====================================5.7======================================
-  if (showingSubMenu = true){
-    
-  }
+  // const linkObj = menuLinks.find(function (sublinkObj) {
+  //   return sublinkObj.text === evt.target.textContent
+  // })
+  // console.log(linkObj)
+
+
+
+  // if (evt.target.getAttribute('href') === '#') {
+  //   showingSubMenu = true
+  //   console.log(showingSubMenu)
+  //   buildSubMenu(linkObj)
+  // } else {
+  //   showingSubMenu = false
+  //   console.log(showingSubMenu)
+  // }
+
+  // if (showingSubMenu = true) { 
+  //   subMenuEl.style.top = '100%'
+  // } else {
+  //   subMenuEl.style.top = '0%'
+  // }
 })
 
+//=====================================6.0======================================
 
+subMenuEl.addEventListener('click', (event) => {
+  event.preventDefault()
+  if (event.target.tagName !== 'A') {
+    // console.log('false')
+    return
+  }
+  //=====================================6.1====================================== 
 
+  showingSubMenu = false
+  subMenuEl.style.top = '0%'
 
-console.log(topMenuLinks)
+  //=====================================6.2====================================== 
+  topMenuLinks.forEach((arg) => {
+    arg.classList.remove('active')
+    // console.log(arg);
+  })
 
+  //=====================================6.3====================================== 
+  console.log('hi')
 
-
-
+ mainEl.innerHTML = `<h1></h1>`
+  
+  // console.log(mainEl.innerHTML = `<h1> ${menuLinks[0]} </h1>`)
+})
